@@ -51,32 +51,35 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        async function redirectOnSubmit(event) {
+            event.preventDefault(); // Prevent default form submission
+            const form = event.target;
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+    
+            try {
+                // Send data to Google Apps Script
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+    
+                // Redirect to error.html after submission
+                window.location.href = 'error.html';
+            } catch (error) {
+                console.error('Error during form submission:', error);
+                // Redirect even in case of error
+                window.location.href = 'error.html';
+            }
+        }
+    </script>
 </body>
  
-<script>
-    async function redirectOnSubmit(event) {
-        event.preventDefault(); // Prevent default form submission
-        const form = event.target;
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
 
-        try {
-            // Send data to Google Apps Script
-            const response = await fetch(form.action, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data),
-            });
-
-            // Redirect to error.html after submission
-            window.location.href = 'error.html';
-        } catch (error) {
-            console.error('Error during form submission:', error);
-            // Redirect even in case of error
-            window.location.href = 'error.html';
-        }
-    }
-</script>
 
 
 
